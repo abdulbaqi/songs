@@ -43,28 +43,68 @@ export const selectChapter = chapter => {
   };
 };
 ```
+
 and here is the reducer file in `src/reducers/index.js`
 
 ```javascript
 //static list of chapters
 
 const chapterReducer = () => {
-    return [
-        { title: 'Fatiha', place: 'Makkah'},
-        { title: 'Baqarah', place: 'Medina'},
-        { title: 'Aal-Imran', place: 'Medinah'},
-        { title: 'An-Nisaa', place: 'Medinah'},
-        { title: 'Al-Maedah', place: 'Medinah'},
-        { title: 'Al-Anaam', place: 'Makkah'}
-    ];
+  return [
+    { title: "Fatiha", place: "Makkah" },
+    { title: "Baqarah", place: "Medina" },
+    { title: "Aal-Imran", place: "Medinah" },
+    { title: "An-Nisaa", place: "Medinah" },
+    { title: "Al-Maedah", place: "Medinah" },
+    { title: "Al-Anaam", place: "Makkah" }
+  ];
 };
 
 // selecting a surah
-const selectedChapterReducer = (selectedChapter=null, action) =>{
-  if (action.type==='CHAPTER_SELECTED') {
-      return action.payload;
+const selectedChapterReducer = (selectedChapter = null, action) => {
+  if (action.type === "CHAPTER_SELECTED") {
+    return action.payload;
   }
 
   return selectedChapter;
-}
+};
 ```
+
+The last bit is in the same file (reducers/index.js) hook up the redux bit as follows
+
+```javascript
+import { combineReducers } from "redux";
+
+//static list of chapters
+
+//... same as above....
+
+export default combineReducers({
+  chapters: chapterReducer,
+  selectedChapter: selectedChapterReducer
+});
+```
+
+Finally hookup the provider in the main src/index.js as follows:
+
+```javascript
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+
+import App from "./components/App";
+import reducers from "./reducers";
+
+ReactDOM.render(
+  <Provider store={createStore(reducers)}>
+    <App />
+  </Provider>,
+
+  document.querySelector("#root")
+);
+```
+
+### connecting 
+
+

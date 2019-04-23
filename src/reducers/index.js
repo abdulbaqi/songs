@@ -1,6 +1,8 @@
+import { combineReducers } from "redux";
+
 //static list of chapters
 
-const chapterReducer = () => {
+const chaptersReducer = () => {
   return [
     { title: "Fatiha", place: "Makkah" },
     { title: "Baqarah", place: "Medina" },
@@ -19,3 +21,8 @@ const selectedChapterReducer = (selectedChapter = null, action) => {
 
   return selectedChapter;
 };
+
+export default combineReducers({
+  chapters: chaptersReducer,
+  selectedChapter: selectedChapterReducer
+});
