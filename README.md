@@ -107,18 +107,18 @@ ReactDOM.render(
 
 ### connecting ChapterList.js
 
-BTW, there is a good playground at: https://stephengrider.github.io/playgrounds/ 
+BTW, there is a good playground at: https://stephengrider.github.io/playgrounds/
 
 we can test the following file to call a function within a function
 
 ```javascript
 function connect() {
   return function() {
-    return 'hi there';
-  }
+    return "hi there";
+  };
 }
 
-connect()()
+connect()();
 ```
 
 with that in mind here is the connection happening inside our `ChapterList` component
@@ -141,4 +141,89 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(ChapterList);
 ```
 
+### producing list with Semantic UI
 
+Lets us render a list leveraging on semantic UI classes as follows: (in the `ChapterList.js` file)
+
+```javascript
+class ChapterList extends React.Component {
+  renderList() {
+    return this.props.chapters.map(chapter => {
+      return (
+        <div className="item" key={chapter.title}>
+          <div className="right floated cotent">
+            <button className="ui button primary">Select</button>
+          </div>
+          <div className="content">{chapter.title}</div>
+        </div>
+      );
+    });
+  }
+  render() {
+    console.log(this.props);
+    return <div className="ui divided list">{this.renderList()}</div>;
+  }
+}
+```
+
+Also, some elements of styling and class names goes into the `App` file:
+
+```javascript
+const App = () => {
+  return (
+    <div className="ui container grid">
+      <div className="ui row">
+        <div className="column eight wide">
+          <ChapterList />
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+### Connection and action
+
+Here is the rendering of `ChapterList` one more time after inserting the action and hooking it up with the connector
+
+```javascript
+import React from "react";
+import { connect } from "react-redux";
+import { selectChapter } from "../actions";
+
+class ChapterList extends React.Component {
+  renderList() {
+    return this.props.chapters.map(chapter => {
+      return (
+        <div className="item" key={chapter.title}>
+          <div className="right floated cotent">
+            <button
+              className="ui button primary"
+              onClick={() => this.props.selectChapter(chapter)}
+            >
+              Select
+            </button>
+          </div>
+          <div className="content">{chapter.title}</div>
+        </div>
+      );
+    });
+  }
+  render() {
+    // console.log(this.props);
+    return <div className="ui divided list">{this.renderList()}</div>;
+  }
+}
+
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    chapters: state.chapters
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { selectChapter }
+)(ChapterList);
+```

@@ -3,8 +3,12 @@ import ChapterList from "./ChapterList";
 
 const App = () => {
   return (
-    <div>
-      <ChapterList />
+    <div className="ui container grid">
+      <div className="ui row">
+        <div className="column eight wide">
+          <ChapterList />
+        </div>
+      </div>
     </div>
   );
 };
