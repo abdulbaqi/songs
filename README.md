@@ -105,6 +105,40 @@ ReactDOM.render(
 );
 ```
 
-### connecting 
+### connecting ChapterList.js
+
+BTW, there is a good playground at: https://stephengrider.github.io/playgrounds/ 
+
+we can test the following file to call a function within a function
+
+```javascript
+function connect() {
+  return function() {
+    return 'hi there';
+  }
+}
+
+connect()()
+```
+
+with that in mind here is the connection happening inside our `ChapterList` component
+
+```javascript
+import React from "react";
+import { connect } from "react-redux";
+
+class ChapterList extends React.Component {
+  render() {
+    return <div>Chapter List</div>;
+  }
+}
+
+const mapStateToProps = state => {
+  console.log(state);
+  return state;
+};
+
+export default connect(mapStateToProps)(ChapterList);
+```
 
 

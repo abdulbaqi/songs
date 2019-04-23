@@ -1,8 +1,12 @@
 import React from "react";
-import { selectChapter } from '../actions';
+import ChapterList from "./ChapterList";
 
 const App = () => {
-  return <div>App</div>;
+  return (
+    <div>
+      <ChapterList />
+    </div>
+  );
 };
 
 export default App;

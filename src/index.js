@@ -4,10 +4,10 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 
 import App from "./components/App";
-import reducers from "./reducers";
+import reducer from "./reducers";
 
 ReactDOM.render(
-  <Provider store={createStore(reducers)}>
+  <Provider store={createStore(reducer)}>
     <App />
   </Provider>,
 
