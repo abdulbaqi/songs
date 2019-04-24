@@ -2,6 +2,8 @@ import React from "react";
 import ChapterList from "./ChapterList";
 import ChapterDetial from "./ChapterDetail";
 
+import Footer from './Footer';
+
 const App = () => {
   return (
     <div>
@@ -14,8 +16,11 @@ const App = () => {
         <div className="column six wide">
           <ChapterDetial />
         </div>
+        
    
     </div>
+    <div  className="ui section divider"></div>
+    <Footer url="http://abdulbaqi.io/2019/04/24/react-redux/" />
     </div>
   );
 };
