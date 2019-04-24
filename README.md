@@ -4,13 +4,19 @@ This app illustrates the working of `Redux` with `React` following from Stephen 
 
 The app lists chapters of the Quran with a select button against each chapter. When clicking on each chapter a detail is presented on a panel or card next to it.
 
+The purpose of this app is to illustrate how Redux works with React and provide a boiler plate for other more complex apps. 
+
+The entire repo is available in my [github](https://github.com/abdulbaqi/songs), and you can see the finished app [here](http://playquran.com/chapterInfo).
+
+
 ## install redux and react-redux library
+
+After installed the normal `react` app, we need two more packages as follows. (I am using `yarn`, you can use `npm` as well).
 
 ```
 yarn add redux react-redux
 ```
-
-All data will be inside redux now, so we can make our App as functional component. For this app, we will have two reducers: a) chapter list reducer, and b) selected chapter reducer, and we will have one action creator: select chapter.
+Redux will take over the task of handling states and data for us, so we can have our `App` component as a functional component rather than a class. For this app, we will have two reducers: a) chapter list reducer, and b) selected chapter reducer, and we will have one action creator: *select chapter*.
 
 Using `react-redux` we will create two components: `Provider` and `Connect`. The provider will get as prop the store of reducers from redux. The hierarcy goes as follows: Provider --> App --> Connect --> ChapterList, ChapterDetail.
 
@@ -20,11 +26,14 @@ The `Connect` component is a special component that communicates with the Provid
 
 Here is the structure
 
-```
+```linux
 /src
   /actions
     index.js (we name it so to reduce the need to name it - just a shortcut)
   /components
+    App.js 
+    ChapterDetail.js
+    ChapterList.js
   /reducers
     index.js
   index.js (will setup both the react and redux stuff)
@@ -44,19 +53,25 @@ export const selectChapter = chapter => {
 };
 ```
 
-and here is the reducer file in `src/reducers/index.js`
+and here is the reducer file in `src/reducers/index.js`. This will hold the data and maintain the state of which chapter is selected. 
 
 ```javascript
 //static list of chapters
 
 const chapterReducer = () => {
   return [
-    { title: "Fatiha", place: "Makkah" },
-    { title: "Baqarah", place: "Medina" },
-    { title: "Aal-Imran", place: "Medinah" },
-    { title: "An-Nisaa", place: "Medinah" },
-    { title: "Al-Maedah", place: "Medinah" },
-    { title: "Al-Anaam", place: "Makkah" }
+   {
+    "No": 1,
+    "name_ar": "الفاتحة",
+    "Name": "Al-Fatiha",
+    "meaning": "The Opening",
+    "no_of_verses": 7,
+    "Place": "Meccan",
+    "Chronology": 5
+  },
+  {
+      //next chapter and so on
+  }
   ];
 };
 
@@ -107,9 +122,9 @@ ReactDOM.render(
 
 ### connecting ChapterList.js
 
-BTW, there is a good playground at: https://stephengrider.github.io/playgrounds/
+Now we need to use the connector to somehow magically hookuo redux with react's prop system. In order to understand the workings of this `connect` method which we import from `react-redux` we need to understand the way it does so in javascript.
 
-we can test the following file to call a function within a function
+To test that run the following snippet in any js playground. Stephen Grider provides on [here](https://stephengrider.github.io/playgrounds/).
 
 ```javascript
 function connect() {
@@ -227,3 +242,29 @@ export default connect(
   { selectChapter }
 )(ChapterList);
 ```
+That means our `connect` here makes the react prompt through `mapStateToProps` have all list of chapters from the reducer file in `/reducer/injex.js`, and second it will also have a hookup between the `onClick` chapter and the action defined as `selectChapter` in the `/actions/index.js`.
+
+## Chapter Detail
+
+Here is the first attempt with the boiler plate.
+
+```javascript
+import React from "react";
+import { connect } from "react-redux";
+
+const ChapterDetail = props => {
+  console.log(props);
+  return <div>Chapter Detail</div>;
+};
+
+const mapStateToProps = state => {
+  return { chapter: state.selectedChapter };
+};
+
+export default connect(mapStateToProps)(ChapterDetail);
+```
+Here again the `connect` brought to the props system the chapter it needs to display, so `props.chapter` will have all details. What will remain is to display using proper Semantic UI CSS classes, which you can investigate on your own. 
+
+# Conclusion
+
+Redux makes the management of states very convenient inside react. It has an initial cost of setting up things properly, but then the complexity does not gain over time if you do not mind the initial cost.

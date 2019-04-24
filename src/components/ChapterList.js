@@ -1,28 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
 import { selectChapter } from "../actions";
+import "./style.css";
 
 class ChapterList extends React.Component {
   renderList() {
     return this.props.chapters.map(chapter => {
       return (
-        <div className="item" key={chapter.title}>
-          <div className="right floated cotent">
+        <div className="item" key={chapter.No}>
+          <div className="content">
             <button
-              className="ui button primary"
+              className="ui button tiny basic"
               onClick={() => this.props.selectChapter(chapter)}
             >
-              Select
+              {chapter.No}. {chapter.Name}
             </button>
           </div>
-          <div className="content">{chapter.title}</div>
         </div>
       );
     });
   }
   render() {
     // console.log(this.props);
-    return <div className="ui divided list">{this.renderList()}</div>;
+    return <div className="ui horizontal list">{this.renderList()}</div>;
   }
 }
 
